@@ -1,0 +1,29 @@
+body {
+    padding-top: 70px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+body{
+    background: url(../img/background.png);
+    background-repeat: repeat; 
+}
+
+.acoes{
+    width: 15px;
+    text-align: center;
+}
+
+.tipo0{
+    color: #FF6384;
+}
+
+.tipo1{
+    color: #58c058;
+}
+
+.table-hover > tbody > tr:hover > .tipo1{
+  color: #004c00;
+}
