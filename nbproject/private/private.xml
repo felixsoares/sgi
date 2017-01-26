@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/felix/Documents/NetBeansProjects/sgi/src/java/br/com/sgi/action/ContaAction.java</file>
-            <file>file:/C:/Users/felix/Documents/NetBeansProjects/sgi/src/java/br/com/sgi/action/MembroAction.java</file>
-            <file>file:/C:/Users/felix/Documents/NetBeansProjects/sgi/src/java/br/com/sgi/persistence/GenericDAO.java</file>
-            <file>file:/C:/Users/felix/Documents/NetBeansProjects/sgi/src/java/br/com/sgi/action/DashboardAction.java</file>
-            <file>file:/C:/Users/felix/Documents/NetBeansProjects/sgi/src/java/br/com/sgi/action/CategoriaAction.java</file>
+            <file>file:/C:/Users/felix/Documents/GitHub/sgi/src/java/br/com/sgi/persistence/ContaDAO.java</file>
+            <file>file:/C:/Users/felix/Documents/GitHub/sgi/src/java/br/com/sgi/action/RelatorioAction.java</file>
+            <file>file:/C:/Users/felix/Documents/GitHub/sgi/web/relatorios.jsp</file>
+            <file>file:/C:/Users/felix/Documents/GitHub/sgi/src/java/br/com/sgi/persistence/LancamentoDAO.java</file>
         </group>
     </open-files>
 </project-private>

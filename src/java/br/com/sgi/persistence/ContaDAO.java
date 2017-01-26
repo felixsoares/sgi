@@ -2,8 +2,11 @@ package br.com.sgi.persistence;
 
 import br.com.sgi.model.Conta;
 import br.com.sgi.model.Mensagem;
+import br.com.sgi.model.dto.RelatorioMembroDTO;
+import br.com.sgi.model.dto.RelatorioSaldoDTO;
 import br.com.sgi.util.RegraNegocioException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -75,6 +78,50 @@ public class ContaDAO extends GenericDAO<Conta> implements IGenericDAO{
             entityManager.close();
             getEMF().close();
         }
+        
+        return lista;
+    }
+    
+    public List<RelatorioSaldoDTO> getRelatorioSaldo(){
+        
+        List<RelatorioSaldoDTO> lista = new ArrayList<>();
+        EntityManager entityManager = null;
+        
+        try {
+            entityManager = getEMF().createEntityManager();
+            
+            String queryString = "SELECT c.id, c.nome, c.saldo " +
+                                 "FROM Conta c " +
+                                 "ORDER BY c.nome";
+            
+            Query query = entityManager.createQuery(queryString);
+            
+            List<Object[]> resultado = query.getResultList();
+            
+            if(resultado != null && resultado.size() > 0){
+                for(Object[] valores : resultado){
+                    
+                    int idConta = Integer.parseInt(valores[0].toString());
+                    
+                    Conta conta = new Conta();
+                    conta.setId(idConta);
+                    conta.setNome(valores[1].toString());
+                    conta.setSaldo(Double.parseDouble(valores[2].toString()));
+                    
+                    RelatorioSaldoDTO saldoDTO = new RelatorioSaldoDTO();
+                    saldoDTO.setConta(conta);
+                    saldoDTO.setLancamentoDTO(new LancamentoDAO().getLancamentoByConta(idConta));
+                    lista.add(saldoDTO);
+                }
+            }
+            
+        } catch (Exception e) {
+            lista = null;
+            System.err.println("Erro: " + e.getMessage());
+        } finally {
+            entityManager.close();
+            getEMF().close();
+        }        
         
         return lista;
     }

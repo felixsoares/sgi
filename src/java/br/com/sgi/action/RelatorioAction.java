@@ -3,6 +3,7 @@ package br.com.sgi.action;
 import br.com.sgi.controller.BusinessLogic;
 import br.com.sgi.model.Mensagem;
 import br.com.sgi.persistence.CategoriaDAO;
+import br.com.sgi.persistence.ContaDAO;
 import br.com.sgi.persistence.LancamentoDAO;
 import br.com.sgi.persistence.MembroDAO;
 import br.com.sgi.util.SGIUtil;
@@ -37,7 +38,10 @@ public class RelatorioAction implements BusinessLogic{
                 break;
             case "lancamentos":
                 relatorioLancamentos(request, response);
-                break;                
+                break;    
+            case "saldo":
+                relatorioSaldos(request, response);
+                break;             
         }
     }
     
@@ -55,9 +59,9 @@ public class RelatorioAction implements BusinessLogic{
             request.setAttribute("primeiroDia", primeiroDia);
             request.setAttribute("ultimoDia", ultimoDia);
         
+            request.setAttribute("nomeRelatorio", "Relatório Despesa x Receita");
             request.setAttribute("relatioLancamento", new LancamentoDAO().getRelatorioLancamento(primeiroDia, ultimoDia));
-            request.setAttribute("membros", new MembroDAO().findAll("Membro", "nome"));
-            request.getRequestDispatcher("relatorios.jsp").forward(request, response);
+            request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -66,12 +70,13 @@ public class RelatorioAction implements BusinessLogic{
     private void relatorioMembros(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         int id = Integer.parseInt(request.getParameter("id_membro"));
         request.setAttribute("relatorioMembros", new MembroDAO().getRelatorioMembro(id));
-        
-        relatorio(request, response);
+        request.setAttribute("nomeRelatorio", "Relatório de dízimos");
+        request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
     }
     
     private void relatorioCategorias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try{
+            
             Date primeiroDia = null, ultimoDia = null;
 
             if(request.getParameter("primeiroDia") != null && !request.getParameter("primeiroDia").trim().equals("")){
@@ -82,9 +87,10 @@ public class RelatorioAction implements BusinessLogic{
                 ultimoDia = SGIUtil.formataData(request.getParameter("ultimoDia"));
             }
         
+            request.setAttribute("nomeRelatorio", "Relatório dos gastos totais com cada categoria");
             request.setAttribute("relatorioCategorias", new CategoriaDAO().getRelatorioCategoria(primeiroDia, ultimoDia));
-            relatorio(request, response);
-        
+            request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
+            
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -106,6 +112,16 @@ public class RelatorioAction implements BusinessLogic{
         request.getRequestDispatcher("relatorios.jsp").forward(request, response);
     }
 
+    private void relatorioSaldos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        try{
+            request.setAttribute("nomeRelatorio", "Relatório de saldo");
+            request.setAttribute("relatioSaldo", new ContaDAO().getRelatorioSaldo());
+            request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
     @Override
     public void getNomePagina(HttpServletRequest request) {
         request.setAttribute("nomePagina", "relatorio");       

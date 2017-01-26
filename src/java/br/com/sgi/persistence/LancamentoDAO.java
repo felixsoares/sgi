@@ -169,4 +169,49 @@ public class LancamentoDAO extends  GenericDAO<Lancamento> implements IGenericDA
         
         return lancamentoDTO;
     }
+    
+    public RelatorioLancamentoDTO getLancamentoByConta(int idConta){
+        RelatorioLancamentoDTO lancamentoDTO = new RelatorioLancamentoDTO();
+        
+        EntityManager entityManager = null;
+        
+        try {
+            entityManager = getEMF().createEntityManager();
+            
+            String queryString = "SELECT DISTINCT SUM(l.valor) " +
+                                 "FROM Lancamento l " +
+                                 "WHERE l.conta.id = :idConta AND l.tipo = 0";
+            
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("idConta", idConta);
+            
+            Double resultado = (Double)query.getSingleResult();
+            
+            if(resultado != null){
+                lancamentoDTO.setValorDespesa(SGIUtil.getPrecisao(resultado));
+            }
+            
+            queryString = "SELECT DISTINCT SUM(l.valor) " +
+                          "FROM Lancamento l " +
+                          "WHERE l.conta.id = :idConta AND l.tipo = 1";
+            
+            query = entityManager.createQuery(queryString);
+            query.setParameter("idConta", idConta);
+            
+            resultado = (Double)query.getSingleResult();
+            
+            if(resultado != null){
+                lancamentoDTO.setValorReceita(SGIUtil.getPrecisao(resultado));
+            }
+            
+        } catch (Exception e) {
+            lancamentoDTO = null;
+            System.err.println("Erro: " + e.getMessage());
+        } finally {
+            entityManager.close();
+            getEMF().close();
+        } 
+        
+        return lancamentoDTO;
+    }
 }

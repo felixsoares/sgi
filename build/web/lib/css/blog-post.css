@@ -27,3 +27,7 @@ body{
 .table-hover > tbody > tr:hover > .tipo1{
   color: #004c00;
 }
+
+.table-hover > tbody > .divisor:hover{
+  background: transparent;
+}
