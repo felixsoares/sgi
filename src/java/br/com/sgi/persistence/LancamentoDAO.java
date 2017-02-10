@@ -3,7 +3,6 @@ package br.com.sgi.persistence;
 import br.com.sgi.model.Lancamento;
 import br.com.sgi.model.Mensagem;
 import br.com.sgi.model.dto.RelatorioLancamentoDTO;
-import br.com.sgi.model.dto.RelatorioMembroDTO;
 import br.com.sgi.util.RegraNegocioException;
 import br.com.sgi.util.SGIUtil;
 import java.util.ArrayList;

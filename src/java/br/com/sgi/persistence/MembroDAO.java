@@ -5,6 +5,7 @@ import br.com.sgi.model.Mensagem;
 import br.com.sgi.model.dto.RelatorioMembroDTO;
 import br.com.sgi.util.RegraNegocioException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -88,7 +89,7 @@ public class MembroDAO extends GenericDAO<Membro> implements IGenericDAO{
                                  "FROM Lancamento l " +
                                  "JOIN l.membro m " +
                                  "WHERE m.id = :id "+
-                                 "ORDER BY l.dataLancada";
+                                 "ORDER BY l.dataLancada ASC";
             
             Query query = entityManager.createQuery(queryString);
             query.setParameter("id", id);
@@ -114,5 +115,47 @@ public class MembroDAO extends GenericDAO<Membro> implements IGenericDAO{
         }        
         
         return lista;
+    }
+    
+    public List<RelatorioMembroDTO> getRelatorioLancamentoMensal(Date primeiroDia, Date ultimoDia){
+        
+        EntityManager entityManager = null;
+        List<RelatorioMembroDTO> listaRelatorio = new ArrayList<>();
+        
+        try{
+            
+            entityManager = getEMF().createEntityManager();
+            
+            String queryString = "SELECT m.nome, l.dataLancada, l.valor " +
+                                 "FROM Lancamento l " +
+                                 "JOIN l.membro m " +
+                                 "WHERE l.dataLancada >= :primeiroDia AND l.dataLancada <= :ultimoDia "+
+                                 "ORDER BY m.nome ASC";
+            
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("primeiroDia", primeiroDia);
+            query.setParameter("ultimoDia", ultimoDia);
+            
+            List<Object[]> resultado = query.getResultList();
+            
+            if(resultado != null && resultado.size() > 0){
+                for(Object[] valores : resultado){
+                    RelatorioMembroDTO membroDTO = new RelatorioMembroDTO();
+                    membroDTO.setNome(valores[0].toString());
+                    membroDTO.setData(valores[1].toString());
+                    membroDTO.setValor(Double.parseDouble(valores[2].toString()));
+                    listaRelatorio.add(membroDTO);
+                }
+            }
+            
+        }catch(Exception e){
+            listaRelatorio = null;
+            System.err.println("Erro: " + e.getMessage());
+        }finally{
+            entityManager.close();
+            getEMF().close();
+        }
+        
+        return listaRelatorio;
     }
 }

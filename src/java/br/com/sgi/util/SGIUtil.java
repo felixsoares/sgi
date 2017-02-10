@@ -5,7 +5,9 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class SGIUtil {
     public static Date formataData(String data) throws Exception {
@@ -34,5 +36,41 @@ public class SGIUtil {
         }else{
             return "Não";
         }
+    }
+    
+    public static Date getPrimeiraHoraDia(Date data) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(data);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+    
+    public static Date getUltimaHoraDia(Date data) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(data);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
+    }
+    
+    public static String getNomeMes(Date data){
+        Locale locale = Locale.getDefault();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(data);
+
+        return setPrimeiraLetraUpperCase(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, locale));
+    }
+
+    public static String setPrimeiraLetraUpperCase(String original) {
+        if (original == null || original.length() == 0) {
+            return original;
+        }
+        return original.substring(0, 1).toUpperCase() + original.substring(1);
     }
 }

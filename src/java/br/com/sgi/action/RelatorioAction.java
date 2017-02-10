@@ -33,6 +33,9 @@ public class RelatorioAction implements BusinessLogic{
             case "membros":
                 relatorioMembros(request, response);
                 break;
+            case "dizimistas":
+                relatorioLancamentoMensal(request, response);
+                break;
             case "categorias":
                 relatorioCategorias(request, response);
                 break;
@@ -43,6 +46,38 @@ public class RelatorioAction implements BusinessLogic{
                 relatorioSaldos(request, response);
                 break;             
         }
+    }
+    
+    private void relatorioLancamentoMensal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        try{
+            Date primeiroDia = null, ultimoDia = null;
+
+            if(request.getParameter("primeiroDia") != null && !request.getParameter("primeiroDia").trim().equals("")){
+                primeiroDia = SGIUtil.formataData(request.getParameter("primeiroDia"));
+            }
+
+            if(request.getParameter("ultimoDia") != null && !request.getParameter("ultimoDia").trim().equals("")){
+                ultimoDia = SGIUtil.formataData(request.getParameter("ultimoDia"));
+            }
+            request.setAttribute("primeiroDia", primeiroDia);
+            request.setAttribute("ultimoDia", ultimoDia);
+            
+            String nomeMes1 = SGIUtil.getNomeMes(primeiroDia);
+            String nomeMes2 = SGIUtil.getNomeMes(ultimoDia);
+            
+            String mes = "";
+            if(nomeMes1.equals(nomeMes2)){
+                mes = " - " + nomeMes1;
+            }else{
+                mes = " - ("+nomeMes1+" a " +nomeMes2+")";
+            }
+        
+            request.setAttribute("nomeRelatorio", "Relatório de dízimistas por mês" + mes);
+            request.setAttribute("relatorioMembros", new MembroDAO().getRelatorioLancamentoMensal(SGIUtil.getPrimeiraHoraDia(primeiroDia), SGIUtil.getUltimaHoraDia(ultimoDia)));
+            request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
+        }catch(Exception e){
+            e.printStackTrace();
+        }        
     }
     
     private void relatorioLancamentos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -60,7 +95,7 @@ public class RelatorioAction implements BusinessLogic{
             request.setAttribute("ultimoDia", ultimoDia);
         
             request.setAttribute("nomeRelatorio", "Relatório Despesa x Receita");
-            request.setAttribute("relatioLancamento", new LancamentoDAO().getRelatorioLancamento(primeiroDia, ultimoDia));
+            request.setAttribute("relatioLancamento", new LancamentoDAO().getRelatorioLancamento(SGIUtil.getPrimeiraHoraDia(primeiroDia), SGIUtil.getUltimaHoraDia(ultimoDia)));
             request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
         }catch(Exception e){
             e.printStackTrace();
@@ -88,7 +123,7 @@ public class RelatorioAction implements BusinessLogic{
             }
         
             request.setAttribute("nomeRelatorio", "Relatório dos gastos totais com cada categoria");
-            request.setAttribute("relatorioCategorias", new CategoriaDAO().getRelatorioCategoria(primeiroDia, ultimoDia));
+            request.setAttribute("relatorioCategorias", new CategoriaDAO().getRelatorioCategoria(SGIUtil.getPrimeiraHoraDia(primeiroDia), SGIUtil.getUltimaHoraDia(ultimoDia)));
             request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
             
         }catch(Exception e){

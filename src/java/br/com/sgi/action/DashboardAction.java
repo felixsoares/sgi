@@ -88,11 +88,11 @@ public class DashboardAction extends BusinesLogicAbstract implements BusinessLog
             Boolean pagoRecebido = null;
             
             if(request.getParameter("primeiroDia") != null && !request.getParameter("primeiroDia").trim().equals("")){
-                primeiroDia = SGIUtil.formataData(request.getParameter("primeiroDia"));
+                primeiroDia = SGIUtil.getPrimeiraHoraDia(SGIUtil.formataData(request.getParameter("primeiroDia")));
             }
             
             if(request.getParameter("ultimoDia") != null && !request.getParameter("ultimoDia").trim().equals("")){
-                ultimoDia = SGIUtil.formataData(request.getParameter("ultimoDia"));
+                ultimoDia = SGIUtil.getUltimaHoraDia(SGIUtil.formataData(request.getParameter("ultimoDia")));
             }
             
             if(pagoRecebidoString != null && !pagoRecebidoString.equals("")){

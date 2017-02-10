@@ -52,27 +52,40 @@
                                     </form>
                                 </div>
                             </div>
-                            
-                            <c:if test="${relatorioMembros != null}">
-                                <table class="table table-hover table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><a>Nome</a></th>
-                                            <th><a>Data</a></th>
-                                            <th><a>Valor</a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items="${relatorioMembros}" var="item">
-                                            <tr class="dizimos">
-                                                <td>${item.nome}</td>
-                                                <td><span class="data">${item.data}</span></td>
-                                                <td style="text-align: right;"><fmt:formatNumber value="${item.valor}" type="currency"/></td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </c:if>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div>
+                            <div class="well">
+                                <label>Relatório de dízimistas por mês</label>
+                                <div class="row">
+                                    <form action="servletmain" method="post">
+                                        <input type="hidden" name="business" value="RelatorioAction"/>
+                                        <input type="hidden" name="action" value="dizimistas"/>
+
+                                        <div class="col-md-4">
+                                            <label>
+                                                Data Inicio
+                                            </label>
+                                            <input type="text" name="primeiroDia" class="form-control dataFormat" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${primeiroDia}"/>" required="required">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>
+                                                Data Final
+                                            </label>
+                                            <input type="text" name="ultimoDia" class="form-control dataFormat" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${ultimoDia}"/>" required="required">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div style="margin-top: 24px">
+                                                <input type="submit" class="btn btn-default" value="Filtrar">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         
                         <hr>
@@ -107,25 +120,6 @@
                                     </form>
                                 </div>
                             </div>
-                                        
-                            <c:if test="${relatorioCategorias != null}">
-                                <table class="table table-hover table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><a>Categoria</a></th>
-                                            <th><a>Valor</a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items="${relatorioCategorias}" var="item">
-                                            <tr>
-                                                <td>${item.nome}</td>
-                                                <td style="text-align: right;"><fmt:formatNumber value="${item.valor}" type="currency"/></td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </c:if>
                         </div>
                         
                         <hr>
@@ -160,9 +154,6 @@
                                     </form>
                                 </div>
                             </div>
-                            <c:if test="${relatioLancamento != null}">
-                                <canvas id="myChart" width="400" height="400"></canvas>
-                            </c:if>
                         </div>
                                         
                         <hr>
@@ -183,40 +174,6 @@
                                     </form>
                                 </div>                                
                             </div>
-                                        
-                            <c:if test="${relatioSaldo != null}">
-                                <table class="table table-hover table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th><a>Conta</a></th>
-                                            <th><a>Saldo</a></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items="${relatioSaldo}" var="item">
-                                            <tr>
-                                                <td>${item.conta.nome}</td>
-                                                <td style="text-align: right;"><fmt:formatNumber value="${item.conta.saldo}" type="currency"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receita</td>
-                                                <td style="text-align: right;"><fmt:formatNumber value="${item.lancamentoDTO.valorReceita}" type="currency"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Despesa</td>
-                                                <td style="text-align: right;"><fmt:formatNumber value="${item.lancamentoDTO.valorDespesa}" type="currency"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>TOTAL</b></td>
-                                                <td style="text-align: right;"><b><fmt:formatNumber value="${(item.conta.saldo + item.lancamentoDTO.valorReceita) - item.lancamentoDTO.valorDespesa}" type="currency"/></b></td>
-                                            </tr>
-                                            <tr class="divisor">
-                                                <td colspan="2"><hr></td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </c:if>
                         </div>
                                         
                     </div>

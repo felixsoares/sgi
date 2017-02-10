@@ -80,6 +80,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <c:set var="totalGeral" value="${0.0}"/>
                                         <c:forEach items="${relatioSaldo}" var="item">
                                             <tr>
                                                 <td>${item.conta.nome}</td>
@@ -97,11 +98,20 @@
                                                 <td><b>TOTAL</b></td>
                                                 <td style="text-align: right;"><b><fmt:formatNumber value="${(item.conta.saldo + item.lancamentoDTO.valorReceita) - item.lancamentoDTO.valorDespesa}" type="currency"/></b></td>
                                             </tr>
+                                            
+                                            <c:set var="totalGeral" value="${totalGeral + ((item.conta.saldo + item.lancamentoDTO.valorReceita) - item.lancamentoDTO.valorDespesa)}" />
+                                            
                                             <tr class="divisor">
                                                 <td colspan="2"><hr></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td><b>TOTAL GERAL</b></td>
+                                            <td style="text-align: right;"><b><fmt:formatNumber value="${totalGeral}" type="currency"/></b></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </c:if>
                         </div>
