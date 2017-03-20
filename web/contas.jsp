@@ -61,7 +61,7 @@
                                         <tr>
                                             <td>${item.nome}</td>
                                             <td><fmt:formatNumber value="${item.saldo}" type="currency"/></td>
-                                            <td>
+                                            <td class="center">
                                                 <a href="servletmain?business=ContaAction&action=alterar&id=${item.id}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                                 <a data-toggle="modal" data-target="#myModal${item.id}" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                             </td>

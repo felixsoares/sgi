@@ -108,7 +108,7 @@
                                             <td class="tipo${item.tipo}">
                                                 <b><label class="valor"><fmt:formatNumber value="${item.valor}" type="currency"/></label></b>
                                             </td>
-                                            <td>
+                                            <td class="center">
                                                 <a href="servletmain?business=DashboardAction&action=alterar&id=${item.id}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                                 <a data-toggle="modal" data-target="#myModal${item.id}" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                             </td>

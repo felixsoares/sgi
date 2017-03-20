@@ -12,7 +12,11 @@ body{
 }
 
 .acoes{
-    width: 30px;
+    width: 15%;
+    text-align: center;
+}
+
+.center{
     text-align: center;
 }
 
