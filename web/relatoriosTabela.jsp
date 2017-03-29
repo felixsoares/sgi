@@ -25,20 +25,36 @@
                                 <table class="table table-hover table-striped table-bordered">
                                     <thead>
                                         <tr>
+                                            <th width="10%"><a>Numeração</th>
                                             <th><a>Nome</a></th>
-                                            <th><a>Data</a></th>
-                                            <th><a>Valor</a></th>
+                                            <th style="text-align: right"><a>Valor</a></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <c:set var="numero" value="${0}"/>
+                                        <c:set var="valorTotal" value="${0.0}"/>
                                         <c:forEach items="${relatorioMembros}" var="item">
+                                            <c:set var="numero" value="${numero = numero + 1}"/>
                                             <tr class="dizimos">
+                                                <td>${numero}</td>
                                                 <td>${item.nome}</td>
-                                                <td><span class="data">${item.data}</span></td>
-                                                <td style="text-align: right;"><fmt:formatNumber value="${item.valor}" type="currency"/></td>
+                                                <c:set var="valorTotal" value="${valortotal = valortotal + item.valor}"/>
+                                                <td style="text-align: right;"><span class="itemValor"><fmt:formatNumber value="${item.valor}" type="currency"/></span></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td style="text-align: right; font-weight: bold;" colspan=2">Total</td>
+                                            <td style="text-align: right; font-weight: bold;"><span class="itemValorTotal"><fmt:formatNumber value="${valorTotal}" type="currency"/></span></td>
+                                        </tr>
+                                        <c:if test="${tirarValor != null}">
+                                            <tr>
+                                                <td style="text-align: right; font-weight: bold;" colspan=2">Dizimo para convenção 10%</td>
+                                                <td style="text-align: right; font-weight: bold;"><span class="itemValorDesconto"></span></td>
+                                            </tr>
+                                        </c:if>
+                                    </tfoot>
                                 </table>
                             </c:if>
                         </div>
@@ -125,15 +141,17 @@
     <%@include file="comum/js.jsp" %>
     <script src="lib/js/Chart.min.js"></script>
     <script>
-        $('.dizimos').each(function(){
-            var data = $(this).find('.data').text();
-            var mes = data.slice(3, 8);
-            var dia = data.slice(7, 10);
-            var ano = data.slice(24, data.length);
-
-            $(this).find('.data').text(dia + ' /' + mes + '/' + ano);
-         });
-
+        <c:if test="${relatorioMembros != null}">
+            $('.dizimos').each(function(){
+                var valor = $(this).find('.itemValor').text();
+                valor = valor.replace("R$ ", "");
+                $(this).find('.itemValor').text(valor);
+            });
+            
+            var texto = $('.itemValorTotal').text();
+            texto = texto.replace("R$ ", "");
+            $('.itemValorTotal').text(texto);
+        </c:if>
          <c:if test="${relatioLancamento != null}">
             var ctx = document.getElementById("myChart");
             var data = {

@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -61,10 +62,13 @@ public class SGIUtil {
     public static String getNomeMes(Date data){
         Locale locale = Locale.getDefault();
 
+        LocalDateTime now = LocalDateTime.now();
+        int year = now.getYear();
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(data);
 
-        return setPrimeiraLetraUpperCase(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, locale));
+        return setPrimeiraLetraUpperCase(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, locale)) + " de " + year;
     }
 
     public static String setPrimeiraLetraUpperCase(String original) {

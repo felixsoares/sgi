@@ -71,7 +71,8 @@ public class RelatorioAction implements BusinessLogic{
             }else{
                 mes = " - ("+nomeMes1+" a " +nomeMes2+")";
             }
-        
+            
+            request.setAttribute("tirarValor", "tirarValor");
             request.setAttribute("nomeRelatorio", "Relatório de dízimistas por mês" + mes);
             request.setAttribute("relatorioMembros", new MembroDAO().getRelatorioLancamentoMensal(SGIUtil.getPrimeiraHoraDia(primeiroDia), SGIUtil.getUltimaHoraDia(ultimoDia)));
             request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
