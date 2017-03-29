@@ -33,6 +33,7 @@
                                     <tbody>
                                         <c:set var="numero" value="${0}"/>
                                         <c:set var="valorTotal" value="${0.0}"/>
+                                        <c:set var="valorDesconto" value="${0.0}"/>
                                         <c:forEach items="${relatorioMembros}" var="item">
                                             <c:set var="numero" value="${numero + 1}"/>
                                             <tr class="dizimos">
@@ -49,9 +50,10 @@
                                             <td style="text-align: right; font-weight: bold;"><span class="itemValorTotal"><fmt:formatNumber value="${valorTotal}" type="currency"/></span></td>
                                         </tr>
                                         <c:if test="${tirarValor != null}">
+                                            <c:set var="valorDesconto" value="${valorTotal * ( 10 / 100)}"/>
                                             <tr>
                                                 <td style="text-align: right; font-weight: bold;" colspan=2">Dizimo para convenção 10%</td>
-                                                <td style="text-align: right; font-weight: bold;"><span class="itemValorDesconto"></span></td>
+                                                <td style="text-align: right; font-weight: bold;"><span class="itemValorDesconto"><fmt:formatNumber value="${valorDesconto}" type="currency"/></span></td>
                                             </tr>
                                         </c:if>
                                     </tfoot>
@@ -151,6 +153,10 @@
             var texto = $('.itemValorTotal').text();
             texto = texto.replace("R$ ", "");
             $('.itemValorTotal').text(texto);
+            
+            var texto = $('.itemValorDesconto').text();
+            texto = texto.replace("R$ ", "");
+            $('.itemValorDesconto').text(texto);
         </c:if>
          <c:if test="${relatioLancamento != null}">
             var ctx = document.getElementById("myChart");
