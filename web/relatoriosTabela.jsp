@@ -39,7 +39,7 @@
                                             <tr class="dizimos">
                                                 <td>${numero}</td>
                                                 <td>${item.nome}</td>
-                                                <c:set var="valorTotal" value="${valortotal + item.valor}"/>
+                                                <c:set var="valorTotal" value="${valorTotal + item.valor}"/>
                                                 <td style="text-align: right;"><span class="itemValor"><fmt:formatNumber value="${item.valor}" type="currency"/></span></td>
                                             </tr>
                                         </c:forEach>
