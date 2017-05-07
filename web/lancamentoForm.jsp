@@ -81,6 +81,13 @@
                             </div>
                             
                             <div class="form-group">
+                                <label class="control-label col-sm-2">Observação:</label>
+                                <div class="col-sm-10"> 
+                                    <input type="text" name="observacao" class="form-control" value="${objLancamento.observacao}" placeholder="Ex: ref Fevereiro etc.">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
                                 <label class="control-label col-sm-2">Categoria:</label>
                                 <div class="col-sm-10"> 
                                     <select name="id_categoria" class="form-control basic-single-categoria">

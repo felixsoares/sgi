@@ -61,13 +61,20 @@ public class SGIUtil {
     
     public static String getNomeMes(Date data){
         Locale locale = Locale.getDefault();
-
-        LocalDateTime now = LocalDateTime.now();
-        int year = now.getYear();
-
+        
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(data);
 
+        return setPrimeiraLetraUpperCase(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, locale));
+    }
+    
+    public static String getNomeMesComAno(Date data){
+        Locale locale = Locale.getDefault();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(data);
+        int year = calendar.get(Calendar.YEAR);
+        
         return setPrimeiraLetraUpperCase(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, locale)) + " de " + year;
     }
 

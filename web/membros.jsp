@@ -48,13 +48,17 @@
                             <table class="table table-hover table-striped table-bordered">
                                 <thead>
                                     <tr>
+                                        <th width="5%"><a>Nº</a></th>
                                         <th><a>Nome</a></th>
                                         <th class="acoes"><a>Ações</a></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:set var="numero" value="${0}"/>
                                     <c:forEach items="${listaMembros}" var="item">
                                         <tr>
+                                            <c:set var="numero" value="${numero + 1}"/>
+                                            <td>${numero}</td>
                                             <td>${item.nome}</td>
                                             <td class="center">
                                                 <a href="servletmain?business=MembroAction&action=alterar&id=${item.id}" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>

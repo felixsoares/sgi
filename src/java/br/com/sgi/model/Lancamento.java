@@ -71,6 +71,9 @@ public class Lancamento implements Serializable {
     @JoinColumn(name = "id_conta", referencedColumnName = "Id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Conta conta;
+    
+    @Column(name = "observacao")
+    private String observacao;
 
     public Lancamento() {
     }
@@ -158,5 +161,13 @@ public class Lancamento implements Serializable {
 
     public void setConta(Conta conta) {
         this.conta = conta;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }

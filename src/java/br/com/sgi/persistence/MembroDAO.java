@@ -1,9 +1,12 @@
 package br.com.sgi.persistence;
 
+import br.com.sgi.model.Lancamento;
 import br.com.sgi.model.Membro;
 import br.com.sgi.model.Mensagem;
 import br.com.sgi.model.dto.RelatorioMembroDTO;
 import br.com.sgi.util.RegraNegocioException;
+import br.com.sgi.util.SGIUtil;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,7 +80,7 @@ public class MembroDAO extends GenericDAO<Membro> implements IGenericDAO{
         return lista;
     }
     
-    public List<RelatorioMembroDTO> getRelatorioMembro(int id){
+    public List<RelatorioMembroDTO> getRelatorioMembro(int id, Date primeiroDia, Date ultimoDia){
         
         List<RelatorioMembroDTO> lista = new ArrayList<>();
         EntityManager entityManager = null;
@@ -85,23 +88,27 @@ public class MembroDAO extends GenericDAO<Membro> implements IGenericDAO{
         try {
             entityManager = getEMF().createEntityManager();
             
-            String queryString = "SELECT m.nome, l.dataLancada, l.valor " +
+            String queryString = "SELECT l " +
                                  "FROM Lancamento l " +
                                  "JOIN l.membro m " +
-                                 "WHERE m.id = :id "+
+                                 "WHERE m.id = :idMembro "+
+                                 "AND l.dataLancada >= :primeiroDia AND l.dataLancada <= :ultimoDia " +
                                  "ORDER BY l.dataLancada ASC";
             
             Query query = entityManager.createQuery(queryString);
-            query.setParameter("id", id);
+            query.setParameter("idMembro", id);
+            query.setParameter("primeiroDia", primeiroDia);
+            query.setParameter("ultimoDia", ultimoDia);
             
-            List<Object[]> resultado = query.getResultList();
+            List<Lancamento> resultado = query.getResultList();
             
             if(resultado != null && resultado.size() > 0){
-                for(Object[] valores : resultado){
+                for(Lancamento valores : resultado){
                     RelatorioMembroDTO membroDTO = new RelatorioMembroDTO();
-                    membroDTO.setNome(valores[0].toString());
-                    membroDTO.setData(valores[1].toString());
-                    membroDTO.setValor(Double.parseDouble(valores[2].toString()));
+                    membroDTO.setNome(valores.getMembro().getNome());
+                    membroDTO.setData(SGIUtil.getNomeMes(valores.getDataLancada()));
+                    membroDTO.setValor(valores.getValor());
+                    membroDTO.setObservacao(valores.getObservacao());
                     lista.add(membroDTO);
                 }
             }
@@ -126,7 +133,7 @@ public class MembroDAO extends GenericDAO<Membro> implements IGenericDAO{
             
             entityManager = getEMF().createEntityManager();
             
-            String queryString = "SELECT m.nome, l.dataLancada, l.valor " +
+            String queryString = "SELECT l " +
                                  "FROM Lancamento l " +
                                  "JOIN l.membro m " +
                                  "WHERE l.dataLancada >= :primeiroDia AND l.dataLancada <= :ultimoDia "+
@@ -136,14 +143,15 @@ public class MembroDAO extends GenericDAO<Membro> implements IGenericDAO{
             query.setParameter("primeiroDia", primeiroDia);
             query.setParameter("ultimoDia", ultimoDia);
             
-            List<Object[]> resultado = query.getResultList();
+            List<Lancamento> resultado = query.getResultList();
             
             if(resultado != null && resultado.size() > 0){
-                for(Object[] valores : resultado){
+                for(Lancamento valores : resultado){
                     RelatorioMembroDTO membroDTO = new RelatorioMembroDTO();
-                    membroDTO.setNome(valores[0].toString());
-                    membroDTO.setData(valores[1].toString());
-                    membroDTO.setValor(Double.parseDouble(valores[2].toString()));
+                    membroDTO.setNome(valores.getMembro().getNome());
+                    membroDTO.setData(SGIUtil.getNomeMes(valores.getDataLancada()));
+                    membroDTO.setValor(valores.getValor());
+                    membroDTO.setObservacao(valores.getObservacao());
                     listaRelatorio.add(membroDTO);
                 }
             }

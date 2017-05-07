@@ -1,10 +1,9 @@
 package br.com.sgi.model.dto;
 
-import java.util.Date;
-
 public class RelatorioMembroDTO {
     
     private String nome;
+    private String observacao;
     private String data;
     private Double valor;
 
@@ -34,5 +33,13 @@ public class RelatorioMembroDTO {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }

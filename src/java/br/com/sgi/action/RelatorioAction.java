@@ -62,18 +62,9 @@ public class RelatorioAction implements BusinessLogic{
             request.setAttribute("primeiroDia", primeiroDia);
             request.setAttribute("ultimoDia", ultimoDia);
             
-            String nomeMes1 = SGIUtil.getNomeMes(primeiroDia);
-            String nomeMes2 = SGIUtil.getNomeMes(ultimoDia);
-            
-            String mes = "";
-            if(nomeMes1.equals(nomeMes2)){
-                mes = " - " + nomeMes1;
-            }else{
-                mes = " - ("+nomeMes1+" a " +nomeMes2+")";
-            }
-            
+            request.setAttribute("colunas", "4");
             request.setAttribute("tirarValor", "tirarValor");
-            request.setAttribute("nomeRelatorio", "Relatório de dízimistas por mês" + mes);
+            request.setAttribute("nomeRelatorio", "Relatório de dízimistas por mês" + getCabecalhoMes(primeiroDia, ultimoDia));
             request.setAttribute("relatorioMembros", new MembroDAO().getRelatorioLancamentoMensal(SGIUtil.getPrimeiraHoraDia(primeiroDia), SGIUtil.getUltimaHoraDia(ultimoDia)));
             request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
         }catch(Exception e){
@@ -104,10 +95,29 @@ public class RelatorioAction implements BusinessLogic{
     }
     
     private void relatorioMembros(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        int id = Integer.parseInt(request.getParameter("id_membro"));
-        request.setAttribute("relatorioMembros", new MembroDAO().getRelatorioMembro(id));
-        request.setAttribute("nomeRelatorio", "Relatório de dízimos");
-        request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
+
+        try{
+
+            int id = Integer.parseInt(request.getParameter("id_membro"));
+
+            Date primeiroDia = null, ultimoDia = null;
+
+            if(request.getParameter("primeiroDia") != null && !request.getParameter("primeiroDia").trim().equals("")){
+                primeiroDia = SGIUtil.formataData(request.getParameter("primeiroDia"));
+            }
+
+            if(request.getParameter("ultimoDia") != null && !request.getParameter("ultimoDia").trim().equals("")){
+                ultimoDia = SGIUtil.formataData(request.getParameter("ultimoDia"));
+            }
+
+            request.setAttribute("colunas", "3");
+            request.setAttribute("relatorioMembros", new MembroDAO().getRelatorioMembro(id, primeiroDia, ultimoDia));
+            request.setAttribute("nomeRelatorio", "Relatório de dízimos " + getCabecalhoMes(primeiroDia, ultimoDia));
+            request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     private void relatorioCategorias(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -156,6 +166,20 @@ public class RelatorioAction implements BusinessLogic{
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    
+    private String getCabecalhoMes(Date primeiroDia, Date ultimoDia){
+        String nomeMes1 = SGIUtil.getNomeMesComAno(primeiroDia);
+        String nomeMes2 = SGIUtil.getNomeMesComAno(ultimoDia);
+
+        String mes = "";
+        if(nomeMes1.equals(nomeMes2)){
+            mes = " - " + nomeMes1;
+        }else{
+            mes = " - ("+nomeMes1+" a " +nomeMes2+")";
+        }
+        
+        return mes;
     }
     
     @Override

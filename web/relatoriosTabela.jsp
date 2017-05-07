@@ -25,8 +25,12 @@
                                 <table class="table table-hover table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th width="10%"><a>Numeração</th>
+                                            <c:if test="${tirarValor != null}">
+                                                <th width="5%"><a>Nº</th>
+                                            </c:if>
                                             <th><a>Nome</a></th>
+                                            <th><a>Observação</a></th>
+                                            <th width="10%"><a>Data</a></th>
                                             <th style="text-align: right"><a>Valor</a></th>
                                         </tr>
                                     </thead>
@@ -37,8 +41,12 @@
                                         <c:forEach items="${relatorioMembros}" var="item">
                                             <c:set var="numero" value="${numero + 1}"/>
                                             <tr class="dizimos">
-                                                <td>${numero}</td>
+                                                <c:if test="${tirarValor != null}">
+                                                    <td>${numero}</td>
+                                                </c:if>
                                                 <td>${item.nome}</td>
+                                                <td>${item.observacao}</td>
+                                                <td>${item.data}</td>
                                                 <c:set var="valorTotal" value="${valorTotal + item.valor}"/>
                                                 <td style="text-align: right;"><span class="itemValor"><fmt:formatNumber value="${item.valor}" type="currency"/></span></td>
                                             </tr>
@@ -46,13 +54,16 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td style="text-align: right; font-weight: bold;" colspan=2">Total</td>
+                                            <td colspan="${colunas + 1}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right; font-weight: bold;" colspan="${colunas}">Total</td>
                                             <td style="text-align: right; font-weight: bold;"><span class="itemValorTotal"><fmt:formatNumber value="${valorTotal}" type="currency"/></span></td>
                                         </tr>
                                         <c:if test="${tirarValor != null}">
                                             <c:set var="valorDesconto" value="${valorTotal * ( 10 / 100)}"/>
                                             <tr>
-                                                <td style="text-align: right; font-weight: bold;" colspan=2">Dizimo para convenção 10%</td>
+                                                <td style="text-align: right; font-weight: bold;" colspan="${colunas}">Dizimo para convenção 10%</td>
                                                 <td style="text-align: right; font-weight: bold;"><span class="itemValorDesconto"><fmt:formatNumber value="${valorDesconto}" type="currency"/></span></td>
                                             </tr>
                                         </c:if>

@@ -30,7 +30,7 @@
                                         <input type="hidden" name="business" value="RelatorioAction"/>
                                         <input type="hidden" name="action" value="membros"/>
 
-                                        <div class="col-md-9">
+                                        <div class="col-md-5">
                                             <label>
                                                 Membro
                                             </label>
@@ -43,8 +43,22 @@
                                                 </c:forEach>
                                             </select>
                                         </div>
+                                        
+                                        <div class="col-md-3">
+                                            <label>
+                                                Data Inicio
+                                            </label>
+                                            <input type="text" name="primeiroDia" class="form-control dataFormat" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${primeiroDia}"/>" required="required">
+                                        </div>
 
                                         <div class="col-md-3">
+                                            <label>
+                                                Data Final
+                                            </label>
+                                            <input type="text" name="ultimoDia" class="form-control dataFormat" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${ultimoDia}"/>" required="required">
+                                        </div>
+
+                                        <div class="col-md-1">
                                             <div style="margin-top: 24px">
                                                 <input type="submit" class="btn btn-default" value="Filtrar">
                                             </div>

@@ -160,6 +160,7 @@ public class DashboardAction extends BusinesLogicAbstract implements BusinessLog
             lancamentoAux.setId(Integer.parseInt(request.getParameter("id")));
             lancamentoAux.setDescricao(request.getParameter("descricao"));
             lancamentoAux.setDataLancada(SGIUtil.formataData(request.getParameter("dataLancada")));
+            lancamentoAux.setObservacao(request.getParameter("observacao"));
 
             if(request.getParameter("valor") != null && !request.getParameter("valor").equals("")){
                 String valor = request.getParameter("valor");
