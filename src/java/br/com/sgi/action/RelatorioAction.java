@@ -64,7 +64,7 @@ public class RelatorioAction implements BusinessLogic{
             
             request.setAttribute("colunas", "4");
             request.setAttribute("tirarValor", "tirarValor");
-            request.setAttribute("nomeRelatorio", "Relatório de dízimistas por mês" + getCabecalhoMes(primeiroDia, ultimoDia));
+            request.setAttribute("nomeRelatorio", "Relatório de Dízimistas por mês" + getCabecalhoMes(primeiroDia, ultimoDia));
             request.setAttribute("relatorioMembros", new MembroDAO().getRelatorioLancamentoMensal(SGIUtil.getPrimeiraHoraDia(primeiroDia), SGIUtil.getUltimaHoraDia(ultimoDia)));
             request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
         }catch(Exception e){
@@ -112,7 +112,7 @@ public class RelatorioAction implements BusinessLogic{
 
             request.setAttribute("colunas", "3");
             request.setAttribute("relatorioMembros", new MembroDAO().getRelatorioMembro(id, primeiroDia, ultimoDia));
-            request.setAttribute("nomeRelatorio", "Relatório de dízimos " + getCabecalhoMes(primeiroDia, ultimoDia));
+            request.setAttribute("nomeRelatorio", "Relatório de Dízimos " + getCabecalhoMes(primeiroDia, ultimoDia));
             request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
             
         }catch(Exception e){
@@ -160,7 +160,7 @@ public class RelatorioAction implements BusinessLogic{
 
     private void relatorioSaldos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try{
-            request.setAttribute("nomeRelatorio", "Relatório de saldo");
+            request.setAttribute("nomeRelatorio", "Relatório de Saldo");
             request.setAttribute("relatioSaldo", new ContaDAO().getRelatorioSaldo());
             request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
         }catch(Exception e){
