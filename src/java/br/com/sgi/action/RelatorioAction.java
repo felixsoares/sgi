@@ -160,7 +160,7 @@ public class RelatorioAction implements BusinessLogic{
 
     private void relatorioSaldos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try{
-            request.setAttribute("nomeRelatorio", "Relatório de Saldo");
+            request.setAttribute("nomeRelatorio", "Relatório de Sgaldo");
             request.setAttribute("relatioSaldo", new ContaDAO().getRelatorioSaldo());
             request.getRequestDispatcher("relatoriosTabela.jsp").forward(request, response);
         }catch(Exception e){
